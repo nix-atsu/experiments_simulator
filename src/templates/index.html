@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Auctions Simulator</title>
+    <script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous">
+
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"></script>
+    <script type="text/javascript" src="participant.js"></script>
+  </head>
+
+  <body>
+    <h1>Auctions Simulator</h1>
+    <div id="register">
+        <h2>Enter your name:</h2>
+        <form id="login" method="POST" >
+            <input type="text" name="name" id="name" placeholder="William Vickrey">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <div id="participant">
+        <h2>Auction Participant data</h2>
+        <div>
+            <p>
+                You are registered for an auction as
+            </p>
+            <p id="p_name">
+                Participant #1, William Vickrey
+            </p>
+            <p>
+                Your role is: <b id="p_role">buyer</b>
+            </p>
+            <p>
+                You have: <b id="p_goods">0</b>&#160;shares and&#160;<b id="p_funds">0</b>&#160;dollars
+            </p>
+            <p>
+                One <b>lot</b> is <b>100</b> shares.
+            </p>
+
+        </div>
+        <!--<div id="double_auction_info">-->
+            <!--<h3>-->
+                <!--Payoff rules-->
+            <!--</h3>-->
+            <!--<p>-->
+                <!--You will receive <b>$</b><b id="expensive_multiplier">0</b> per share for the first <b id="expensive_amount">0</b> shares you end up with, and <b>$</b><b id="quasi_expensive_multiplier">0</b> per share for the next <b id="quasi_expensive_amount">0</b> shares. You will receive <b>$0</b> per share for any share after <b id="threshold_amount"></b>. Initial funds <b>$</b><b id="initial_funds_subtracted">0</b> will be subtracted from your final outcome.-->
+            <!--</p>-->
+        <!--</div>-->
+    </div>
+
+    <!--<div id="double_auction_results">-->
+        <!--<h2>Double Auction Results</h2>-->
+            <!--<p>-->
+                <!--Your total earned amount is: $<b id="da_total_amount">0</b>-->
+            <!--</p>-->
+    <!--</div>-->
+
+    <!--<div id="double_auction">-->
+        <!--<h2>Double Auction</h2>-->
+        <!--<div id="bid_input">-->
+            <!--<h3>Input your buying bid amount:</h3>-->
+            <!--<form id="bid_form" method="POST" >-->
+                <!--Buy <input type="number" min="1" step="0.01" name="bid_amount" id="bid_amount"> shares for-->
+                <!--$<input type="number" min="1" step="0.01" name="bid_price" id="bid_price">-->
+                <!--<span>($<span id="bid_price_lot">0</span> per lot)</span>-->
+                <!--<input type="submit" value="Bid">-->
+            <!--</form>-->
+            <!--<h3>Input your selling bid amount:</h3>-->
+            <!--<form id="ask_form" method="POST" >-->
+                <!--Sell <input type="number" min="1" step="0.01" name="ask_amount" id="ask_amount"> shares for-->
+                <!--$<input type="number" min="1" step="0.01" name="ask_price" id="ask_price">-->
+                <!--<span>($<span id="ask_price_lot">0</span> per lot)</span>-->
+                <!--<input type="submit" value="Ask">-->
+            <!--</form>-->
+        <!--</div>-->
+
+        <!--<h3>Your bids:</h3>-->
+        <!--<p>-->
+            <!--<b>Bid:</b> You are buying <b id="your_bid_amount">0</b> shares for $<b id="your_bid_price">0</b> ($<span id="your_bid_price_lot">0</span> per lot).-->
+        <!--</p>-->
+        <!--<p>-->
+            <!--<b>Ask:</b> You are selling <b id="your_ask_amount">0</b> shares for $<b id="your_ask_price">0</b> ($<span id="your_ask_price_lot">0</span> per lot).-->
+        <!--</p>-->
+
+        <!--<div id="current_bids">-->
+            <!--<h2>Current Bids:</h2>-->
+            <!--<table id="bids_data">-->
+              <!--<tr>-->
+                <!--<th>Bids</th>-->
+                <!--<th>Asks</th>-->
+              <!--</tr>-->
+              <!--<tr>-->
+              <!--</tr>-->
+            <!--</table>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div id="clearing_house">-->
+        <!--<h2>Clearing House</h2>-->
+        <!--<div id="bid_input_buyer">-->
+            <!--<h3>Input your buying bid amount:</h3>-->
+            <!--<form id="bid_form_buyer" method="POST" >-->
+                <!--Buy <input type="number" min="1" step="0.01" name="bid_amount_buyer" id="bid_amount_buyer"> shares for-->
+                <!--$<input type="number" min="1" step="0.01" name="bid_price_buyer" id="bid_price_buyer">-->
+                <!--<span>($<span id="bid_price_lot_buyer">0</span> per lot)</span>-->
+                <!--<input type="submit" value="Bid">-->
+            <!--</form>-->
+        <!--</div>-->
+        <!--<div id="bid_input_seller">-->
+            <!--<h3>Input your selling bid amount:</h3>-->
+            <!--<form id="ask_form_seller" method="POST" >-->
+                <!--Sell <input type="number" min="1" step="0.01" name="ask_amount_seller" id="ask_amount_seller"> shares for-->
+                <!--$<input type="number" min="1" step="0.01" name="ask_price_seller" id="ask_price_seller">-->
+                <!--<span>($<span id="ask_price_lot_seller">0</span> per lot)</span>-->
+                <!--<input type="submit" value="Ask">-->
+            <!--</form>-->
+        <!--</div>-->
+
+        <!--<h3>Your bid:</h3>-->
+        <!--<p id="bid_buyer">-->
+            <!--<b>Bid:</b> You are buying <b id="your_bid_amount_buyer">0</b> shares for $<b id="your_bid_price_buyer">0</b> ($<span id="your_bid_price_lot_buyer">0</span> per lot).-->
+        <!--</p>-->
+        <!--<p id="bid_seller">-->
+            <!--<b>Ask:</b> You are selling <b id="your_ask_amount_seller">0</b> shares for $<b id="your_ask_price_seller">0</b> ($<span id="your_ask_price_lot_seller">0</span> per lot).-->
+        <!--</p>-->
+    <!--</div>-->
+
+    <!--<div style="float: right;">-->
+        <!--<form id="disconnect" method="POST" >-->
+            <!--<input type="submit" value="Disconnect">-->
+        <!--</form>-->
+    <!--</div>-->
+
+  </body>
+  <style>
+    table {
+        border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+  </style>
+</html>

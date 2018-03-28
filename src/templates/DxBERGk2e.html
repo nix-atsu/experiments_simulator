@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Auctions Simulator Admin Page</title>
+    <script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous">
+
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js" ></script>
+    <script type="text/javascript" src="admin_page.js"></script>
+  </head>
+
+  <body>
+    <h1>Auction Simulator Admin</h1>
+
+    <h2>Buyers (not RT):</h2>
+    <div id="buyers"></div>
+
+    <h2>Sellers (not RT):</h2>
+    <div id="sellers"></div>
+
+    <!--<h2>Current Bids (RT):</h2>-->
+    <!--<table id="bids_data"  >-->
+      <!--<tr class="bor" style="border: 1px solid black;">-->
+        <!--<th class="bor" style="border: 1px solid black;">Bids</th>-->
+        <!--<th class="bor" style="border: 1px solid black;">Asks</th>-->
+      <!--</tr>-->
+      <!--<tr>-->
+        <!--<td>25.5 / 5000.00 per lot</td>-->
+        <!--<td>15.5 / 6000.00 per lot</td>-->
+      <!--</tr>-->
+    <!--</table>-->
+    <h2>Connected Participants (RT updates):</h2>
+    <div id="participants"></div>
+
+    <!--<h2>Bids log (RT updates):</h2>-->
+    <!--<div id="log"></div>-->
+
+
+    <h2>Shiny Buttons:</h2>
+    <form id="reset" method="POST" >
+        <div>
+          Delete all participants along with their roles (they will have to register again and will be assigned random roles)
+          <input type="submit" value="Reset participants">
+        </div>
+    </form>
+    <br>
+    <form id="reset_bids" method="POST" >
+      <div>
+        Delete all bids and asks
+        <input type="submit" value="Reset all bids">
+      </div>
+    </form>
+    <!--<h2>Double Auction Buttons:</h2>-->
+    <!--<form id="reset_auction_double" method="POST" >-->
+
+        <!--<div>-->
+          <!--Resets previous double auction data (history of bids resolution, bids, participants results). Participants get 10k funds and 300 shares according to their role.-->
+          <!--<input type="submit" value="RESET Double Auction">-->
+        <!--</div>-->
+    <!--</form>-->
+    <!--<br>-->
+
+    <!--<form id="start_auction_double" method="POST" >-->
+        <!--<div>-->
+          <!--Start double auction. Shows participants bid forms, they can bid as many times as they like till you press "stop double auction".-->
+          <!--<input type="submit" value="Start Double Auction">-->
+        <!--</div>-->
+    <!--</form>-->
+    <!--<br>-->
+    <!--<form id="stop_auction_double" method="POST" >-->
+        <!--<div>-->
+          <!--Stop double auction. Hides bid forms from participants, they can no longer bid, auction resolution is calculated and displayed.-->
+          <!--<input type="submit" value="Stop Double Auction">-->
+        <!--</div>-->
+    <!--</form>-->
+    <!--<br>-->
+    <!--<form id="get_participants_results" method="POST" >-->
+        <!--<div>-->
+          <!--Get participants results data. It will b sent from server and will replace RT data in "Participants results".-->
+          <!--<input type="submit" value="Get participants results">-->
+        <!--</div>-->
+    <!--</form>-->
+    <!--<br>-->
+    <!--<form id="get_resolved_bids_history" method="POST" >-->
+        <!--<div>-->
+          <!--Get bids history results data. It will b sent from server and will replace RT data in "Resolved Bids history".-->
+          <!--<input type="submit" value="Get Resolved Bids history">-->
+        <!--</div>-->
+    <!--</form>-->
+
+    <!--<h3>Resolved Bids history (quantity, lot_price):</h3>-->
+    <!--<div id="history"></div>-->
+
+    <!--<h3>Participants results:</h3>-->
+    <!--<div id="results"></div>-->
+
+    <!--<h2>Clearing House Buttons:</h2>-->
+    <!--<form id="start_clearing_house" method="POST" >-->
+        <!--<div>-->
+          <!--Self explanatory.-->
+          <!--<input type="submit" value="Start clearing house">-->
+        <!--</div>-->
+    <!--</form>-->
+    <!--<br>-->
+    <!--<form id="stop_clearing_house" method="POST" >-->
+        <!--<div>-->
+          <!--SAVE RESULTS before! Stop auction. Will also clear your Resolved Bids history log and participants results to append clear house data.-->
+          <!--<input type="submit" value="Stop clearing house">-->
+        <!--</div>-->
+    <!--</form>-->
+    <!--<br>-->
+    <!--<form id="reset_clearing_house" method="POST" >-->
+        <!--<div>-->
+          <!--Delete all info about bids.-->
+          <!--<input type="submit" value="Reset clearing house">-->
+        <!--</div>-->
+    <!--</form>-->
+    <!--<br>-->
+  </body>
+  <style>
+    table {
+        border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+  </style>
+
+</html>
