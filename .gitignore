@@ -1,2 +1,4 @@
 .idea
 venv/
+experiments/config.py
+**/__pycache__

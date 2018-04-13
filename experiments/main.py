@@ -1,15 +1,20 @@
 import os
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
+from experiments import config
+from experiments.db import db
+
 
 app = Flask(__name__, static_url_path='')
-app.config['SECRET_KEY'] = 'change!me!'
+app.config.from_pyfile('config.py', silent=False)
 
 socketio = SocketIO(app)
 
 # server params
-port = int(os.environ.get("PORT", 33508))
-localhost = '0.0.0.0'
+port = int(os.environ.get("PORT", config.APP_PORT))
+
+# db connection
+con, meta = db.connect()
 
 # auction params - change these
 STARTING_FUNDS = 10000.00
@@ -42,7 +47,7 @@ def admin():
     return render_template('DxBERGk2e.html')
 
 
-# bookkeeping
+# logging
 @socketio.on('connect')
 def participant_connect():
     print('participant connected')
@@ -155,6 +160,5 @@ def reset_participants():
 
 # run server
 if __name__ == '__main__':
-    print("running server on http://" + localhost + ":" + str(port))
-    socketio.run(app, host=localhost, port=port)
-
+    print("running server on http://" + config.LOCALHOST + ":" + str(port))
+    socketio.run(app, host=config.LOCALHOST, port=port)
